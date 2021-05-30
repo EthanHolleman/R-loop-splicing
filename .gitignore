@@ -1,0 +1,6 @@
+.snakemake/
+logs/
+output/
+*.bed
+*.bedgraph
+.vscode/
