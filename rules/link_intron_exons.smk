@@ -7,8 +7,7 @@ rule intersect_intron_exon_bounds:
     output:
         'output/linked_introns/linked_introns.{tNet_sample}.{strand}.bedgraph'
     shell:'''
-    bedtools window -a {input.scored_introns} -b {input.scored_exons} /
-    -w 1 -c > {output}
+    bedtools window -a {input.scored_introns} -b {input.scored_exons} -w 1 > {output} && [[ -s {output} ]]
     '''
 
 rule link_all_intron_files:
@@ -20,6 +19,9 @@ rule link_all_intron_files:
         )
     output:
         'output/linked_introns/link_all_intron_files.done'
+    shell:'''
+    touch {output}
+    '''
 
 
 

@@ -1,22 +1,26 @@
 
 
 rule sort_intron_exons:
+    conda:
+        '../envs/bedtools.yml'
     input:
-        'data/hg19/knownGene_labeled.{region_type}.{strand}.formated.bedgraph'
+        'data/hg19/knownGene_labeled.{region_type}.{strand}.formated.clean.bedgraph'
     output:
         'data/hg19/knownGene_labeled.{region_type}.{strand}.formated.sorted.bedgraph'
     shell:'''
-    sort -k1,1 -k2,2 {input} > {output}
+    sort-bed --max-mem 8G {input} > {output} && [[ -s {output} ]]
     '''
 
 
 rule sort_tnet_seq:
+    conda:
+        '../envs/bedtools.yml'
     input:
         'data/RNAss/{tNet_sample}.bedgraph'
     output:
         'data/RNAss/{tNet_sample}.sorted.bedgraph'
     shell:'''
-    sort -k1,1 -k2,2 {input} > {output}
+    sort-bed --max-mem 8G {input} > {output} && [[ -s {output} ]]
     '''
 
 
@@ -33,7 +37,7 @@ rule map_intron_exons_over_nascent_transcripts:
     shell:'''
     mkdir -p output/intron_exons_tNetseq
     bedtools map -a {input.genic_region} -b {input.nacent_read_count} \
-    -c 4 -o sum > {output}
+    -c 4 -o sum > {output} && [[ -s {output} ]]
     '''
 
 # equilavent for drip peaks but use mean
