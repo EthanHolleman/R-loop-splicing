@@ -9,3 +9,5 @@ __default__:
   email: 'etholleman@ucdavis.edu'
   mem: "8000"
 
+sort_tnet_seq:
+  mem: "32000"
