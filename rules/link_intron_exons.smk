@@ -1,6 +1,8 @@
 
 
 rule intersect_intron_exon_bounds:
+    conda:
+        '../envs/bedtools.yml'
     input:
         scored_introns='output/intron_exons_tNetseq/intron.{strand}.{tNet_sample}.bedgraph',
         scored_exons='output/intron_exons_tNetseq/exon.{strand}.{tNet_sample}.bedgraph'
