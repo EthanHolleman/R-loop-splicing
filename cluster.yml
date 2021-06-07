@@ -1,13 +1,10 @@
 
 __default__:
-  partition: "high"
+  partition: "med"
   nodes: 1
   cpus: "{threads}"
   name: "{rule}.{wildcards}"
   output: "logs/{rule}.{wildcards}.out"
   time: "04:00:00"
   email: 'etholleman@ucdavis.edu'
-  mem: "8000"
-
-sort_tnet_seq:
-  mem: "32000"
+  mem: "9000"
