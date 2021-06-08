@@ -1,27 +1,25 @@
 
-
-rule map_drip_siganl:
+rule sort_drip_files:
     conda:
         '../envs/bedtools.yml'
     input:
-        SE='output/SE_calcs/SE_calc.{tNet_sample}.{strand}.bed',
-        DRIP='data/DRIPc/DRIPc_{strand}_macs.bed'
+        'data/DRIPc/DRIPc_{strand}_macs.bed'
     output:
-        'output/map_drip/map_drip.{tNet_sample}.{strand}.bed'
+        'data/DRIPc/DRIPc_{strand}_macs.sorted.bed'
     shell:'''
-    bedtools map -a {input.SE} -b {input.DRIP} -c 5 -o mean /
-    > {output} && [[ -s {output} ]]
+    sort-bed --max-mem 8G {input} > {output} && [[ -s {output} ]]
     '''
 
-rule map_drip_to_all_samples:
+
+rule map_drip_signal:
+    conda:
+        '../envs/bedtools.yml'
     input:
-        expand(
-            'output/map_drip/map_drip.{tNet_sample}.{strand}.bed',
-            tNet_sample=tNet_samples.index.values.tolist(),
-            strand=['fwd', 'rev']
-            )
+        SE='output/pre_calc_processed/{calc_type}.{pol_type}.{strand}.{intron_inclusion}.sorted.bed',
+        DRIP='data/DRIPc/DRIPc_{strand}_macs.sorted.bed'
+        #bedgraph='output/pre_calc_processed/{calc_type}.{pol_type}.{strand}.bedgraph'
     output:
-        'output/map_drip/map_drip_to_all_samples.done'
+        'output/map_drip/map_drip.{calc_type}.{pol_type}.{strand}.{intron_inclusion}.bed'
     shell:'''
-    touch {output}
+    bedtools map -a {input.SE} -b {input.DRIP} -c 5 -null 0 -o mean > {output} && [[ -s {output} ]]
     '''
