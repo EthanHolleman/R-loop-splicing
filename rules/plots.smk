@@ -24,7 +24,8 @@ rule make_plots:
     conda:
         '../envs/R.yml'
     input:
-        lambda wildcards: plot_input_files
+        data=lambda wildcards: plot_input_files,
+        genes='data/hg19/hg19_apprisplus_gene.bed'
     output:
         'output/plots/plot.pdf'
     script:'../scripts/multi_plot.R'
