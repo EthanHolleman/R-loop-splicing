@@ -59,7 +59,6 @@ rule seperate_pre_calc_strands_rev:
     '''
 
 
-
 rule sort_precalc_strands:
     # sort and add file identified indicating that all introns
     # are included to differentiate from files where introns have
