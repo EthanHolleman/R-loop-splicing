@@ -18,6 +18,8 @@ rule intersect_introns_and_genes:
 
 
 rule label_introns_with_gene_and_number:
+    # output file is only introns, labeled with position relative to start intron
+    # end intron and gene name. NO LONGER INCLUDES GENE INTERSECTIONS.
     input:
         'output/pre_calc_processed/{calc_type}.{pol_type}.{strand}.geneIntronIntersect.bed'
     output:
@@ -39,10 +41,10 @@ rule sort_label_introns_with_gene_and_number:
 
 rule remove_first_last_introns:
     input:
-        'output/pre_calc_processed/{calc_type}.{pol_type}.{strand}.labledAllIntrons.sorted.bed'
+        'output/pre_calc_processed/{calc_type}.{pol_type}.{strand}.geneIntronIntersect.bed'
     output:
         no_first_last='output/pre_calc_processed/{calc_type}.{pol_type}.{strand}.noFirstLast.bed',
-    script:'../scripts/remove_first_last_introns_from_intersection.py'
+    script:'../scripts/rm_fl_introns.py'
 
 
 
